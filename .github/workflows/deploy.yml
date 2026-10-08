@@ -1,7 +1,6 @@
-```yaml
-name: Build, Deploy and Package Tiffany Protocol
+name: Build Deploy and Package Tiffany Protocol
 
-on:
+"on":
   push:
     branches:
       - main
@@ -58,6 +57,7 @@ jobs:
     name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -66,4 +66,3 @@ jobs:
       - name: Deploy Pages
         id: deployment
         uses: actions/deploy-pages@v4
-```
