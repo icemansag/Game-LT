@@ -1,0 +1,454 @@
+/* src/MIBGallery3D.css */
+
+.pantalla-juego { 
+    width: 100%; 
+    max-width: 440px; 
+    height: 94vh; 
+    max-height: 720px; 
+    background: #0b0c10; 
+    border: 3px solid #1f2833; 
+    border-radius: 14px; 
+    position: relative; 
+    overflow: hidden; 
+    display: flex; 
+    flex-direction: column; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.95), inset 0 0 20px rgba(0,255,204,0.1);
+    cursor: crosshair;
+    perspective: 1000px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* --- ENTORNO 3D: CALLEJÓN NOCTURNO MIB --- */
+.callejon-fondo {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, #020204 0%, #0d1117 40%, #161b22 100%);
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Paredes de ladrillo con relieve 3D simulado */
+.callejon-fondo::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(30deg, #111 12%, transparent 12.5%, transparent 87%, #111 87.5%, #111),
+        linear-gradient(150deg, #111 12%, transparent 12.5%, transparent 87%, #111 87.5%, #111),
+        linear-gradient(30deg, #111 12%, transparent 12.5%, transparent 87%, #111 87.5%, #111),
+        linear-gradient(150deg, #111 12%, transparent 12.5%, transparent 87%, #111 87.5%, #111);
+    background-size: 40px 70px;
+    background-position: 0 0, 0 0, 20px 35px, 20px 35px;
+    opacity: 0.25;
+}
+
+/* Luces de Neón Ambientales del Callejón */
+.luz-neon-1 {
+    position: absolute;
+    top: -20px; left: 20px;
+    width: 120px; height: 180px;
+    background: radial-gradient(ellipse, rgba(0,255,204,0.18) 0%, transparent 70%);
+    transform: rotate(-25deg);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.luz-neon-2 {
+    position: absolute;
+    top: -20px; right: 20px;
+    width: 120px; height: 180px;
+    background: radial-gradient(ellipse, rgba(255,0,127,0.15) 0%, transparent 70%);
+    transform: rotate(25deg);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Tuberías industriales y vapor simulado en el fondo */
+.tuberia {
+    position: absolute;
+    top: 0; width: 12px; height: 100%;
+    background: linear-gradient(90deg, #222, #444, #111);
+    border-left: 1px solid #555;
+    z-index: 1;
+    opacity: 0.7;
+}
+.tuberia.izq { left: 10px; }
+.tuberia.der { right: 10px; }
+
+/* --- MIRA LÁSER TÁCTICA 3D --- */
+.mira-telescopica {
+    position: absolute;
+    width: 62px;
+    height: 62px;
+    border: 3px solid #00ff66;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    box-shadow: 0 0 15px #00ff66, 0 0 25px #00ff66, inset 0 0 12px #00ff66;
+    animation: pulsoMira3D 1.2s infinite alternate;
+}
+
+.mira-telescopica::before {
+    content: '';
+    position: absolute;
+    top: -6px; left: -6px; right: -6px; bottom: -6px;
+    border: 1px dashed #ff007f;
+    border-radius: 50%;
+}
+
+.mira-telescopica::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 74px; height: 3px;
+    background: #00ff66;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #00ff66;
+}
+
+.puntero-laser {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 10px; height: 10px;
+    background: #ff0033;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 12px #ff0033, 0 0 22px #ff0033;
+    z-index: 101;
+}
+
+@keyframes pulsoMira3D {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    100% { transform: translate(-50%, -50%) scale(1.06); }
+}
+
+/* Rayo láser del Neuralizador al disparar */
+.laser-beam {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    width: 8px;
+    background: linear-gradient(to top, rgba(0, 255, 204, 0.9), #fff, rgba(255, 0, 100, 0.9));
+    box-shadow: 0 0 20px #00ffcc, 0 0 30px #ff007f;
+    transform-origin: bottom center;
+    pointer-events: none;
+    z-index: 150;
+    border-radius: 4px;
+    animation: beamDischarge 0.22s ease-out forwards;
+}
+
+@keyframes beamDischarge {
+    0% { opacity: 1; transform: scaleX(2.5); }
+    100% { opacity: 0; transform: scaleX(0.5); }
+}
+
+/* HUD Superior Estilo MIB */
+.hud-mib { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 7px 10px; 
+    background: rgba(10, 14, 20, 0.94); 
+    border-bottom: 2px solid #00ffcc; 
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+    font-family: 'Arial Black', Impact, sans-serif;
+}
+.hud-vidas { 
+    color: #ff3333; 
+    font-size: 0.92rem; 
+    letter-spacing: 2px; 
+}
+.hud-nivel-tag { 
+    color: #00ffcc; 
+    font-size: 0.82rem; 
+    text-transform: uppercase; 
+    text-shadow: 0 0 8px rgba(0,255,204,0.5); 
+}
+.hud-tiempo { 
+    color: #ffcc00; 
+    font-size: 1.05rem; 
+    text-shadow: 0 0 8px rgba(255,204,0,0.5); 
+}
+.hud-score {
+    color: #38bdf8;
+    font-size: 0.76rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 6px rgba(56,189,248,0.4);
+}
+.btn-hud-icon {
+    background: transparent;
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    color: #00ffcc;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-hud-icon:hover {
+    background: rgba(0, 255, 204, 0.15);
+    border-color: #00ffcc;
+}
+
+/* Banner de Pista */
+.pista-box { 
+    background: #ffcc00; 
+    color: #000; 
+    padding: 5px 10px; 
+    font-size: 0.70rem; 
+    text-align: center; 
+    font-family: Arial, sans-serif; 
+    font-weight: bold; 
+    border-bottom: 2px solid #111; 
+    text-transform: uppercase; 
+    z-index: 5;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    letter-spacing: 0.5px;
+}
+
+/* REJILLA DE GALERÍA DE TIRO EN PERSPECTIVA 3D */
+.escena-grid-3d { 
+    flex: 1; 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    grid-template-rows: repeat(3, 1fr);
+    gap: 7px; 
+    padding: 8px; 
+    z-index: 5;
+    transform-style: preserve-3d;
+    min-height: 0;
+}
+
+.casilla-3d {
+    background: rgba(20, 25, 35, 0.6);
+    border: 2px solid rgba(0, 255, 204, 0.2);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 4px 8px rgba(0,0,0,0.5);
+    transform: translateZ(0);
+    transition: border-color 0.3s;
+}
+
+/* Slot index keyboard badge */
+.slot-badge {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    color: #00ffcc;
+    font-size: 0.62rem;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 1px 4px;
+    border-radius: 4px;
+    z-index: 4;
+    pointer-events: none;
+}
+
+/* EFECTO 3D DE APARICIÓN DE OBJETIVOS */
+.sospechoso-3d { 
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    transform: translateY(110%) translateZ(-30px) scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.25), box-shadow 0.3s, border-color 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border: 2px solid #333;
+    background: linear-gradient(135deg, #181d28 0%, #0d1117 100%);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+    cursor: pointer;
+}
+
+.sospechoso-3d.visible {
+    transform: translateY(0%) translateZ(20px) scale(1);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.9), 0 0 15px rgba(0,255,204,0.2);
+}
+
+.sospechoso-3d.seleccionado { 
+    border-color: #00ff66 !important; 
+    box-shadow: 0 0 25px #00ff66, inset 0 0 10px #00ff66 !important; 
+    z-index: 6; 
+    transform: translateY(0%) translateZ(35px) scale(1.03);
+}
+
+.avatar-container-3d {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, #252b3b 0%, #0a0d14 100%);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+}
+
+.avatar-imagen-drive {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    pointer-events: none;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+.sospechoso-3d:hover .avatar-imagen-drive {
+    transform: scale(1.05);
+}
+
+/* Simulación de iluminación volumétrica 3D en el avatar */
+.avatar-container-3d::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(0,0,0,0.4) 100%);
+    pointer-events: none;
+}
+
+.info-box-3d {
+    width: 100%;
+    background: rgba(5, 8, 12, 0.95);
+    padding: 3px;
+    text-align: center;
+    border-top: 1px solid rgba(0, 255, 204, 0.3);
+    flex-shrink: 0;
+}
+.nombre-tag-3d { 
+    color: #fff; 
+    font-size: 0.72rem; 
+    font-family: Arial, sans-serif; 
+    font-weight: bold; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.rol-tag-3d { 
+    color: #00ffcc; 
+    font-size: 0.58rem; 
+    font-family: Arial, sans-serif; 
+    text-transform: uppercase; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Panel de Diálogo Inferior */
+.dialogo-box-3d { 
+    background: rgba(8, 11, 16, 0.98); 
+    border-top: 2px solid #00ffcc; 
+    padding: 8px 12px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    gap: 6px; 
+    height: 108px; 
+    flex-shrink: 0;
+    z-index: 10;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.8);
+}
+.texto-dialogo-3d { 
+    font-family: Arial, sans-serif; 
+    font-size: 0.76rem; 
+    color: #e2e8f0; 
+    line-height: 1.25; 
+    overflow: hidden;
+    min-height: 2.2em;
+}
+.controles-acciones {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.boton-rotar-3d {
+    background: rgba(30, 41, 59, 0.85);
+    color: #00ffcc;
+    border: 1px solid rgba(0, 255, 204, 0.4);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Arial Black', Impact, sans-serif;
+    white-space: nowrap;
+}
+.boton-rotar-3d:hover {
+    background: rgba(0, 255, 204, 0.2);
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+}
+.boton-acusar-3d { 
+    flex: 1;
+    background: linear-gradient(135deg, #ff3333 0%, #cc0000 100%); 
+    color: white; 
+    border: 1px solid #ff6666; 
+    padding: 8px; 
+    border-radius: 6px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    font-size: 0.82rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255,0,0,0.4);
+    transition: transform 0.1s, box-shadow 0.2s;
+    font-family: 'Arial Black', Impact, sans-serif;
+}
+.boton-acusar-3d:active { transform: scale(0.97); }
+
+.flash-overlay { 
+    position: absolute; 
+    top:0; left:0; width:100%; height:100%; 
+    background: white; 
+    opacity: 0; 
+    pointer-events: none; 
+    transition: opacity 0.12s ease-out; 
+    z-index: 200; 
+}
+
+.overlay-modal { 
+    position: absolute; 
+    top:0; left:0; width:100%; height:100%; 
+    background: rgba(5, 7, 10, 0.96); 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 24px; 
+    text-align: center; 
+    z-index: 300; 
+    font-family: Arial, sans-serif; 
+}
+.overlay-modal h2 { 
+    margin-bottom: 12px; 
+    font-family: 'Arial Black', Impact, sans-serif; 
+    text-shadow: 0 0 12px currentColor; 
+}
+.overlay-modal button { 
+    background: #00cc66; 
+    color: white; 
+    border: none; 
+    padding: 10px 22px; 
+    font-size: 0.95rem; 
+    border-radius: 6px; 
+    font-weight: bold; 
+    margin-top: 15px; 
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,204,102,0.4);
+    font-family: 'Arial Black', Impact, sans-serif;
+    transition: transform 0.1s;
+}
+.overlay-modal button:active { transform: scale(0.97); }

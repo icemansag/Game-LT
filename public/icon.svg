@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#141923" />
+      <stop offset="70%" stop-color="#07090d" />
+      <stop offset="100%" stop-color="#020305" />
+    </radialGradient>
+    <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter id="laser-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="14" result="blur1" />
+      <feGaussianBlur stdDeviation="6" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="100" fill="url(#bg)" />
+
+  <!-- Outer Neon Ring -->
+  <circle cx="256" cy="256" r="200" fill="none" stroke="#00ff66" stroke-width="8" filter="url(#neon-glow)" />
+  <circle cx="256" cy="256" r="216" fill="none" stroke="#ff007f" stroke-width="4" stroke-dasharray="14 10" opacity="0.8" />
+  <circle cx="256" cy="256" r="160" fill="none" stroke="#00e5ff" stroke-width="3" stroke-dasharray="6 6" opacity="0.7" />
+
+  <!-- MIB Badge Shape & Sunglasses Silhouette -->
+  <g transform="translate(256, 210) scale(0.9)">
+    <!-- Dark glasses frame -->
+    <path d="M-110,-10 C-100,-40 -50,-40 -20,-20 C-10,-12 10,-12 20,-20 C50,-40 100,-40 110,-10 C115,20 100,50 60,50 C25,50 15,10 0,10 C-15,10 -25,50 -60,50 C-100,50 -115,20 -110,-10 Z" fill="#000000" stroke="#00ffcc" stroke-width="5" filter="url(#neon-glow)" />
+    <!-- Glasses Lenses with reflection -->
+    <path d="M-95,-2 C-88,-25 -52,-25 -28,-10 C-30,30 -60,38 -85,32 C-95,28 -98,12 -95,-2 Z" fill="#0f172a" />
+    <path d="M-85,-2 L-40,25" stroke="#00ffcc" stroke-width="4" stroke-linecap="round" opacity="0.6" />
+    <path d="M95,-2 C88,-25 52,-25 28,-10 C30,30 60,38 85,32 C95,28 98,12 95,-2 Z" fill="#0f172a" />
+    <path d="M45,-2 L90,25" stroke="#00ffcc" stroke-width="4" stroke-linecap="round" opacity="0.6" />
+  </g>
+
+  <!-- Crosshairs -->
+  <line x1="256" y1="36" x2="256" y2="150" stroke="#00ff66" stroke-width="5" filter="url(#neon-glow)" />
+  <line x1="256" y1="362" x2="256" y2="476" stroke="#00ff66" stroke-width="5" filter="url(#neon-glow)" />
+  <line x1="36" y1="256" x2="150" y2="256" stroke="#00ff66" stroke-width="5" filter="url(#neon-glow)" />
+  <line x1="362" y1="256" x2="476" y2="256" stroke="#00ff66" stroke-width="5" filter="url(#neon-glow)" />
+
+  <!-- Laser Reticle Center -->
+  <circle cx="256" cy="256" r="30" fill="none" stroke="#ff0033" stroke-width="4" />
+  <circle cx="256" cy="256" r="14" fill="#ff0033" filter="url(#laser-glow)" />
+  <circle cx="256" cy="256" r="5" fill="#ffffff" />
+
+  <!-- MIB Text in Cyber Stencil font -->
+  <text x="256" y="420" font-family="'Arial Black', Impact, sans-serif" font-weight="900" font-size="34" fill="#00ffcc" text-anchor="middle" letter-spacing="8" filter="url(#neon-glow)">EXAMEN MIB</text>
+  <text x="256" y="448" font-family="monospace" font-size="13" fill="#ff007f" text-anchor="middle" letter-spacing="4">TACTICAL HUD // NEON</text>
+</svg>

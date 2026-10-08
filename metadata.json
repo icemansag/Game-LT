@@ -1,0 +1,6 @@
+{
+  "name": "Examen MIB - Galería de Tiro PWA",
+  "description": "Mini-juego arcade Men In Black de puntería con mira táctil neón, evaluación de amenazas alienígenas, soporte offline PWA completo y gestión de assets multimedia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
