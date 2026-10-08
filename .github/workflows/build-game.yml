@@ -1,0 +1,49 @@
+```yaml
+name: Build Tiffany Protocol
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Construir juego
+        run: npm run build
+
+      - name: Preparar paquete para itch.io
+        run: |
+          mkdir -p itch/Tiffany-Protocol
+          cp -r dist/. itch/Tiffany-Protocol/
+
+      - name: Crear ZIP
+        run: |
+          cd itch
+          zip -r ../Tiffany-Protocol.zip Tiffany-Protocol
+
+      - name: Guardar ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tiffany-Protocol
+          path: Tiffany-Protocol.zip
+          retention-days: 30
+```
